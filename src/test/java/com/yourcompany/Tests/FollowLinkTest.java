@@ -28,11 +28,10 @@ public class FollowLinkTest extends TestBase {
         //create webdriver session
         this.createDriver(browser, version, os, method.getName());
         WebDriver driver = this.getWebDriver();
+        GuineaPigPage page = new GuineaPigPage(driver);
 
-        GuineaPigPage page = GuineaPigPage.visitPage(driver);
-
+        page.visitPage();
         page.followLink();
-
         Assert.assertFalse(page.isOnPage());
     }
 
