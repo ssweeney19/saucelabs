@@ -1,59 +1,49 @@
 package com.yourcompany.Pages;
 
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
 
 public class GuineaPigPage {
 
-    @FindBy(linkText = "i am a link")
-    private WebElement theActiveLink;
+    protected WebDriver driver;
 
-    @FindBy(id = "your_comments")
-    private WebElement yourCommentsSpan;
+    private By theActiveLinkLocator = By.linkText("i am a link");
+    private By yourCommentsSpanLocator = By.id("your_comments");
+    private By commentsTextAreaInputLocator = By.id("comments");
+    private By submitButtonLocator = By.id("submit");
 
-    @FindBy(id = "comments")
-    private WebElement commentsTextAreaInput;
-
-    @FindBy(id = "submit")
-    private WebElement submitButton;
-
-    public WebDriver driver;
-    public static String url = "https://saucelabs-sample-test-frameworks.github.io/training-test-page";
-
-    public static GuineaPigPage visitPage(WebDriver driver) {
-        GuineaPigPage page = new GuineaPigPage(driver);
-        page.visitPage();
-        return page;
-    }
+    private static String url = "https://saucelabs-sample-test-frameworks.github.io/training-test-page";
 
     public GuineaPigPage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver, this);
+//        PageFactory.initElements(driver, this);
     }
 
     public void visitPage() {
-        this.driver.get(url);
+        driver.get(url);
     }
 
     public void followLink() {
-        theActiveLink.click();
+        driver.findElement(theActiveLinkLocator).click();
     }
 
     public void submitComment(String text) {
-        commentsTextAreaInput.sendKeys(text);
-        submitButton.click();
+        driver.findElement(commentsTextAreaInputLocator).sendKeys(text);
+        driver.findElement(submitButtonLocator).click();
 
         // Race condition for time to populate yourCommentsSpan
         WebDriverWait wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.textToBePresentInElement(yourCommentsSpan, text));
+        wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(yourCommentsSpanLocator), text));
     }
 
     public String getSubmittedCommentText() {
-        return yourCommentsSpan.getText();
+        return driver.findElement(yourCommentsSpanLocator).getText();
     }
 
     public boolean isOnPage() {

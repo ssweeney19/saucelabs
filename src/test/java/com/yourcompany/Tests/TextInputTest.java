@@ -26,13 +26,11 @@ public class TextInputTest extends TestBase {
             throws MalformedURLException, InvalidElementStateException, UnexpectedException {
         this.createDriver(browser, version, os, method.getName());
         WebDriver driver = this.getWebDriver();
-
         String commentInputText = UUID.randomUUID().toString();
+        GuineaPigPage page = new GuineaPigPage(driver);
 
-        GuineaPigPage page = GuineaPigPage.visitPage(driver);
-
+        page.visitPage();
         page.submitComment(commentInputText);
-
         Assert.assertTrue(page.getSubmittedCommentText().contains(commentInputText));
     }
 
