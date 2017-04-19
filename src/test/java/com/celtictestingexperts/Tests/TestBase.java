@@ -1,4 +1,4 @@
-package com.yourcompany.Tests;
+package com.celtictestingexperts.Tests;
 
 // import Sauce TestNG helper libraries
 
